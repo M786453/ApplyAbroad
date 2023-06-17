@@ -103,7 +103,31 @@ def getFilters() -> dict:
 
         # Get Inputs from user and update the filters dict
 
-        # Search Query
+        # What Study Details
+
+
+        print("")
+
+        what = input("What would you like to study: ")
+
+        if what == "":
+
+            print("No Target Study.")
+        
+        ## Updating Filter
+
+        filters["what_text"] = what
+        filters["what_value"] = what
+        filters["what_type"] = "unknown"
+
+        filters["filter"]["what_text"] = what
+        filters["filter"]["what_value"] = what
+        filters["filter"]["what_type"] = "unknown"
+        
+
+        # Where study Details
+
+        print("")
 
         where = input("Enter School or Location: ")
 
