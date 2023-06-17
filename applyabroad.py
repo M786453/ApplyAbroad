@@ -103,8 +103,29 @@ def getFilters() -> dict:
 
         # Get Inputs from user and update the filters dict
 
+        # Search Query
+
+        where = input("Enter School or Location: ")
+
+        if where == "":
+
+            print("No Location or School provided.")
+
+        # "where_text":"manchester","where_value":"manchester","where_type":"unknown",
+
+        ## Updating Filter
+
+        filters["where_text"] = where
+        filters["where_value"] = where
+        filters["where_type"] = "unknown"
+
+        filters["filter"]["where_text"] = where
+        filters["filter"]["where_value"] = where
+        filters["filter"]["where_type"] = "unknown"
+
 
         # Eligibility Details
+        print("")
         print("####### Eligibility Details #######")
 
         
@@ -118,11 +139,17 @@ def getFilters() -> dict:
              
             print(str(index) + ":" + sort_value)
 
-        sort_by = int(input("'Sort By' Option Number: "))
+        sort_by_choice = input("'Sort By' Option Number: ")
 
-        sort_by = SORT_BY[sort_by]
+        if sort_by_choice == "":
+            sort_by = SORT_BY[0]
+            print("Default Sort By Option:", sort_by)
+        else:
+            sort_by = int(sort_by_choice)
 
-        print("Sort By Option Choosed:", sort_by)
+            sort_by = SORT_BY[sort_by]
+
+            print("Sort By Option Choosed:", sort_by)
 
         """
         Updating 'Sort By' Filter Value
@@ -142,27 +169,37 @@ def getFilters() -> dict:
 
             print(str(index) + ":" + permit)
 
-        permit_value = STUDY_PERMITS[int(input("Enter Option Number: "))]
+        permit_choice = input("Enter Option Number: ")
 
-        if permit_value == STUDY_PERMITS[1]:
+        if permit_choice != "":
 
-            filters["has_us_study_permit"] = True
+            permit_value = STUDY_PERMITS[int(permit_choice)]
+
+            if permit_value == STUDY_PERMITS[1]:
+
+                filters["has_us_study_permit"] = True
+            
+            if permit_value == STUDY_PERMITS[2]:
+
+                filters["has_ca_study_permit"] = True
+            
+            if permit_value == STUDY_PERMITS[3]:
+
+                filters["has_gb_study_permit"] = True
+            
+            if permit_value == STUDY_PERMITS[4]:
+
+                filters["has_au_study_permit"] = True
+            
+            if permit_value == STUDY_PERMITS[5]:
+
+                filters["has_ie_study_permit"] = True
+            
+            print("Permit Option Choosed: " + permit_value)
         
-        if permit_value == STUDY_PERMITS[2]:
+        else:
 
-            filters["has_ca_study_permit"] = True
-        
-        if permit_value == STUDY_PERMITS[3]:
-
-            filters["has_gb_study_permit"] = True
-        
-        if permit_value == STUDY_PERMITS[4]:
-
-            filters["has_au_study_permit"] = True
-        
-        if permit_value == STUDY_PERMITS[5]:
-
-            filters["has_ie_study_permit"] = True
+            print("No permit option choosed.")
 
 
         ## Nationality Filter
@@ -208,37 +245,43 @@ def getFilters() -> dict:
         
         grade_id = input("Enter Only Grade Number: ")
 
-        education_level = EDUCATION_LEVELS[int(grade_id)-1]["type"]
+        if grade_id != "":
+
+            education_level = EDUCATION_LEVELS[int(grade_id)-1]["type"]
+            
+            print("Choosed Education Level:", education_level)
+
+            filters["studied_level"] = education_level
+
+            ## Grading Scheme Filter
+
+            grading_scheme = 0
+
+            filters["grading_scheme"] = grading_scheme
+
+            ## Grading Scale Filter
+
+            print("")
+
+            grading_scale = int(input("Enter Grading Scale From 0-100:"))
+
+            print("Choosed Grading Scale:", grading_scale)
+
+            filters["grade_scale"] = grading_scale
+
+            ## Grading Average Filter
+
+            print("")
+
+            grading_average = int(input("Enter Grading Average: "))
+
+            print("Choosed Grading Average:", grading_average)
+
+            filters["grade"] = grading_average
         
-        print("Choosed Education Level:", education_level)
+        else:
 
-        filters["studied_level"] = education_level
-
-        ## Grading Scheme Filter
-
-        grading_scheme = 0
-
-        filters["grading_scheme"] = grading_scheme
-
-        ## Grading Scale Filter
-
-        print("")
-
-        grading_scale = int(input("Enter Grading Scale From 0-100:"))
-
-        print("Choosed Grading Scale:", grading_scale)
-
-        filters["grade_scale"] = grading_scale
-
-        ## Grading Average Filter
-
-        print("")
-
-        grading_average = int(input("Enter Grading Average: "))
-
-        print("Choosed Grading Average:", grading_average)
-
-        filters["grade"] = grading_average
+            print("No Grade Choosed.")
 
         ## English Exam Filter
 
@@ -252,39 +295,52 @@ def getFilters() -> dict:
 
             print(str(index) + ":" + value)
         
-        eng_test = ENGLISH_TESTS_LIST[int(input("Enter Exam Number: "))]
+        eng_test_choice = input("Enter Exam Number: ")
 
-        ### Enter Further Details of English Exam
+        if eng_test_choice != "":
 
-        eng_test_dict = {eng_test: ENGLISH_TESTS[eng_test]}
+            eng_test = ENGLISH_TESTS_LIST[int(eng_test_choice)]
 
-        if len(ENGLISH_TESTS[eng_test]) > 1:
 
-            print("Enter Further Details of '" + eng_test + "':")
+            ### Enter Further Details of English Exam
 
-            for key in ENGLISH_TESTS[eng_test].keys():
+            eng_test_dict = {eng_test: ENGLISH_TESTS[eng_test]}
 
-                if key == "r":
+            ### If selected english test dictionary contains more than 1 values
+            if len(ENGLISH_TESTS[eng_test]) > 1:
 
-                    eng_test_dict[eng_test]['r'] = int(input("Enter Reading Score: "))
+                print("Enter Further Details of '" + eng_test + "':")
 
-                if key == "l":
+                for key in ENGLISH_TESTS[eng_test].keys():
 
-                    eng_test_dict[eng_test]['l'] = int(input("Enter Listening Score: "))
+                    if key == "r":
 
-                if key == "s":
+                        eng_test_dict[eng_test]['r'] = int(input("Enter Reading Score: "))
 
-                    eng_test_dict[eng_test]['s'] = int(input("Enter Speaking Score: "))
+                    if key == "l":
 
-                if key == "w":
+                        eng_test_dict[eng_test]['l'] = int(input("Enter Listening Score: "))
 
-                    eng_test_dict[eng_test]['w'] = int(input("Enter Writing Score: "))
+                    if key == "s":
 
-                if key == "total":
+                        eng_test_dict[eng_test]['s'] = int(input("Enter Speaking Score: "))
 
-                    eng_test_dict[eng_test]["total"] = int(input("Overall Score: "))
+                    if key == "w":
 
-        print("Choosed English Exam: ",eng_test_dict)
+                        eng_test_dict[eng_test]['w'] = int(input("Enter Writing Score: "))
+
+                    if key == "total":
+
+                        eng_test_dict[eng_test]["total"] = int(input("Overall Score: "))
+
+            print("Choosed English Exam: ",eng_test_dict)
+
+        else:
+
+            eng_test_dict = {ENGLISH_TESTS_LIST[0]: ENGLISH_TESTS["dont_have"]}
+
+            print("Default English Exam Value: ", eng_test_dict)
+
 
         filters["eng_test"] = eng_test_dict
 
@@ -300,66 +356,68 @@ def getFilters() -> dict:
 
         only_direct_admission = True if input("Enter 'Yes' Or 'No': ").lower() == "yes" else False
 
-        print("Choosed:", only_direct_admission)
+        print("Direct Admission Choosed:", only_direct_admission)
 
         filters["only_direct"] = only_direct_admission
 
         ## GRE and GMAT Filter
         ## If grade is higher than grade of higher school
-        if int(grade_id) > 12:
+        if grade_id != "":
 
-            ### GRE Filter
+            if int(grade_id) > 12:
 
-            print("")
+                ### GRE Filter
 
-            gre_dict = {"value": False}
+                print("")
 
-            gre_choice = input("Have you passed GRE?\nEnter 'Yes' or 'No':")
+                gre_dict = {"value": False}
 
-            gre_dict["value"] = True if gre_choice.lower() == "yes" else False
+                gre_choice = input("Have you passed GRE?\nEnter 'Yes' or 'No':")
 
-            if gre_dict["value"]:
-            
-                gre_dict["v"] = int(input("Enter Verbal Score: "))
-                gre_dict["vp"] = int(input("Enter Verbal Rank%: "))
+                gre_dict["value"] = True if gre_choice.lower() == "yes" else False
 
-                gre_dict["q"] = int(input("Enter Quantitative Score: "))
-                gre_dict["qp"] = int(input("Enter Qunatitative Rank%: "))
+                if gre_dict["value"]:
+                
+                    gre_dict["v"] = int(input("Enter Verbal Score: "))
+                    gre_dict["vp"] = int(input("Enter Verbal Rank%: "))
 
-                gre_dict["w"] = int(input("Enter Writing Score: "))
-                gre_dict["wp"] = int(input("Enter Writing Rank%: "))
+                    gre_dict["q"] = int(input("Enter Quantitative Score: "))
+                    gre_dict["qp"] = int(input("Enter Qunatitative Rank%: "))
 
-            #### Update Filters
+                    gre_dict["w"] = int(input("Enter Writing Score: "))
+                    gre_dict["wp"] = int(input("Enter Writing Rank%: "))
 
-            filters["gre"] = gre_dict
+                #### Update Filters
 
-            ### GMAT Filter
+                filters["gre"] = gre_dict
 
-            print("")
+                ### GMAT Filter
 
-            gmat_dict = {"value": False}
+                print("")
 
-            gmat_choice = input("Have you passed GMAT?\nEnter 'Yes' or 'No':")
+                gmat_dict = {"value": False}
 
-            gmat_dict["value"] = True if gmat_choice.lower() == "yes" else False
-            
-            if gmat_dict["value"]:
+                gmat_choice = input("Have you passed GMAT?\nEnter 'Yes' or 'No':")
 
-                gmat_dict["v"] = int(input("Enter Verbal Score: "))
-                gmat_dict["vp"] = int(input("Enter Verbal Rank%: "))
+                gmat_dict["value"] = True if gmat_choice.lower() == "yes" else False
+                
+                if gmat_dict["value"]:
 
-                gmat_dict["q"] = int(input("Enter Quantitative Score: "))
-                gmat_dict["qp"] = int(input("Enter Qunatitative Rank%: "))
+                    gmat_dict["v"] = int(input("Enter Verbal Score: "))
+                    gmat_dict["vp"] = int(input("Enter Verbal Rank%: "))
 
-                gmat_dict["w"] = int(input("Enter Writing Score: "))
-                gmat_dict["wp"] = int(input("Enter Writing Rank%: "))
+                    gmat_dict["q"] = int(input("Enter Quantitative Score: "))
+                    gmat_dict["qp"] = int(input("Enter Qunatitative Rank%: "))
 
-                gmat_dict["t"] = int(input("Enter Total Score: "))
-                gmat_dict["tp"] = int(input("Enter Total%: "))
+                    gmat_dict["w"] = int(input("Enter Writing Score: "))
+                    gmat_dict["wp"] = int(input("Enter Writing Rank%: "))
 
-            #### Update Filters
+                    gmat_dict["t"] = int(input("Enter Total Score: "))
+                    gmat_dict["tp"] = int(input("Enter Total%: "))
 
-            filters["gmat"] = gmat_dict
+                #### Update Filters
+
+                filters["gmat"] = gmat_dict
 
 
 
@@ -389,8 +447,8 @@ def getProgramsByFilters():
 
     return json.loads(programs_response.text)
 
-# with open("programs.json", "w") as out:
-#     out.write(json.dumps(getProgramsByFilters()))
+with open("programs.json", "w") as out:
+    out.write(json.dumps(getProgramsByFilters()))
 
 
 
