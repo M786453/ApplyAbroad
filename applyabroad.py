@@ -18,6 +18,14 @@ def getProgramsData():
 
     return json.loads(programs_data_response.text)
 
+def whereAutocomplete(query, nmbr_of_results):
+
+    AUTOCOMPLETE_URL = f"https://www.applyboard.com/api/autocomplete/where/ac/?q={query}&n={nmbr_of_results}"
+
+    autocomplete_response = requests.get(AUTOCOMPLETE_URL)
+
+    return json.loads(autocomplete_response.text)
+
 def getCountriesList():
     # sort countries relatvie to their names
     COUNTRIES_URL = "https://www.applyboard.com/api/v2/countries?sort=name"
@@ -381,7 +389,9 @@ def getProgramsByFilters():
 
     return json.loads(programs_response.text)
 
-with open("programs.json", "w") as out:
-    out.write(json.dumps(getProgramsByFilters()))
+# with open("programs.json", "w") as out:
+#     out.write(json.dumps(getProgramsByFilters()))
+
+
 
 
