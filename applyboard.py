@@ -16,6 +16,8 @@ def getProgramsByFilters():
 
     filters = Filters().get()
 
+    print(filters)
+
     PROGRAMS_URL = "https://www.applyboard.com/program_search.json?group_by_school=false"
 
     headers = {

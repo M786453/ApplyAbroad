@@ -215,18 +215,17 @@ class SchoolFilters(MainFilter):
             self.filters["school_ids"] = SELECTED_SCHOOLS_IDS
             self.filters["filter"]["school_ids"] = SELECTED_SCHOOLS_IDS
 
-# schoolFilter = SchoolFilters()
+    def schoolFilters(self):
 
-# selected_countries = schoolFilter._country_filter()
+        selected_countries = self._country_filter()
 
-# schoolFilter._post_grad_permit_filter()
+        self._post_grad_permit_filter()
 
-# selected_provinces = schoolFilter._province_filter(selected_countries)
+        selected_provinces = self._province_filter(selected_countries)
 
-# selected_cities =  schoolFilter._campus_city_filter(selected_countries, selected_provinces)
+        selected_cities = self._campus_city_filter(selected_countries, selected_provinces)
 
-# selected_school_types = schoolFilter._school_type_filter()
+        selected_types = self._school_type_filter()
 
-# schoolFilter._school_filter(selected_countries, selected_provinces, selected_cities, selected_school_types)
+        self._school_filter(selected_countries, selected_provinces, selected_cities, selected_types)
 
-# print(schoolFilter.filters)

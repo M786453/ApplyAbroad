@@ -1,6 +1,7 @@
 from EligibilityFilters import EligibilityFilters
+from SchoolFilters import SchoolFilters
 
-class Filters(EligibilityFilters):
+class Filters(EligibilityFilters, SchoolFilters):
 
 
     def get(self):
@@ -8,6 +9,8 @@ class Filters(EligibilityFilters):
         self.mainFilters()
 
         self.eligibilityFilters()
+
+        self.schoolFilters()
 
         return self.filters
 
