@@ -151,20 +151,42 @@ class SchoolFilters(MainFilter):
 
     def _school_type_filter(self):
 
+        SCHOOL_TYPES = [
+            "University",
+            "College",
+            "English Institute",
+            "High School"
+        ]
 
-        pass
+        SELECTED_SCHOOL_TYPES = self._get_user_choices(SCHOOL_TYPES, "School Types")
+
+        SELECTED_TYPES_NUMBERS = list()
+
+        for t in SELECTED_SCHOOL_TYPES:
+
+            SELECTED_TYPES_NUMBERS.append(int(SCHOOL_TYPES.index(t)) + 1)
+
+
+        if len(SELECTED_SCHOOL_TYPES) == 0:
+            print("No School Type Selected")
+        else:
+            #Updating Filters
+            self.filters["school_types"] = SELECTED_TYPES_NUMBERS
+            self.filters["filter"]["school_types"] = SELECTED_TYPES_NUMBERS
 
     def _school_filter(self):
         pass
 
 schoolFilter = SchoolFilters()
 
-selected_countries = schoolFilter._country_filter()
+# selected_countries = schoolFilter._country_filter()
 
-schoolFilter._post_grad_permit_filter()
+# schoolFilter._post_grad_permit_filter()
 
-selected_provinces = schoolFilter._province_filter(selected_countries)
+# selected_provinces = schoolFilter._province_filter(selected_countries)
 
-schoolFilter._campus_city_filter(selected_countries, selected_provinces)
+# schoolFilter._campus_city_filter(selected_countries, selected_provinces)
+
+schoolFilter._school_type_filter()
 
 print(schoolFilter.filters)
