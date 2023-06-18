@@ -19,6 +19,8 @@ class MainFilter:
         self.COUNTRIES_LIST = self._get_countries_list()["data"]
 
         self.EDUCATION_LEVELS = self._get_education_levels_data()
+
+        self.SCHOOLS_DATA = self._get_schools_data()
     
     def _what_study_filter(self):
 

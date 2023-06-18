@@ -7,7 +7,7 @@ class SchoolFilters(MainFilter):
     def __init__(self):
         super().__init__()
         self.market_data = self._get_markets_data()["data"]
-        self.schools = self._get_schools_data()["schools"]["schoolHashMap"]
+        self.schools = self.SCHOOLS_DATA["schools"]["schoolHashMap"]
 
     def _country_filter(self):
 
