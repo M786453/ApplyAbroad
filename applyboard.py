@@ -3,14 +3,6 @@ import json
 
 from Filters import Filters
 
-def getSchoolsData():
-
-    SCHOOLS_DATA_URL = "https://www.applyboard.com/quick_search.json"
-
-    schools_data_response = requests.get(SCHOOLS_DATA_URL)
-
-    return json.loads(schools_data_response.text)
-
 def getProgramsData():
 
     PROGRAMS_DATA_URL = "https://www.applyboard.com/program_search.json"

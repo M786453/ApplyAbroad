@@ -7,6 +7,7 @@ class SchoolFilters(MainFilter):
     def __init__(self):
         super().__init__()
         self.market_data = self._get_markets_data()["data"]
+        self.schools = self._get_schools_data()["schools"]["schoolHashMap"]
 
     def _country_filter(self):
 
@@ -39,7 +40,6 @@ class SchoolFilters(MainFilter):
         self.filters["pgwp"] = pgwp
 
         self.filters["filter"]["pgwp"] = pgwp
-
 
     def _get_user_choices(self, data_list: list, tag: str) -> list:
 
@@ -108,7 +108,6 @@ class SchoolFilters(MainFilter):
         
         return SELECTED_PROVINCES
 
-        
     def _get_cities(self, country_codes : list, provinces : list):
 
         country_codes = ",".join(country_codes)
@@ -148,6 +147,8 @@ class SchoolFilters(MainFilter):
             # Updating Filters
             self.filters["cities"] = SELECTED_CITIES
             self.filters["filter"]["cities"] = SELECTED_CITIES 
+        
+        return SELECTED_CITIES
 
     def _school_type_filter(self):
 
@@ -174,10 +175,47 @@ class SchoolFilters(MainFilter):
             self.filters["school_types"] = SELECTED_TYPES_NUMBERS
             self.filters["filter"]["school_types"] = SELECTED_TYPES_NUMBERS
 
-    def _school_filter(self):
-        pass
+        return SELECTED_TYPES_NUMBERS
 
-schoolFilter = SchoolFilters()
+    def _get_schools_data(self):
+
+        SCHOOLS_DATA_URL = "https://www.applyboard.com/quick_search.json"
+
+        schools_data_response = requests.get(SCHOOLS_DATA_URL)
+
+        return json.loads(schools_data_response.text)
+
+    def _school_filter(self, selected_countries, selected_provinces, 
+                       selected_cities, selected_school_types):
+
+        FILTERED_SCHOOLS = dict()
+        FILTERED_SCHOOLS_NAMES = list()
+
+        for school_id in self.schools:
+
+            school = self.schools[school_id]
+
+            if school["country"] in selected_countries and school["province"] in selected_provinces and school["city"] in selected_cities and school["type"] in selected_school_types:
+
+                FILTERED_SCHOOLS[school["name"]] = school_id
+
+                FILTERED_SCHOOLS_NAMES.append(school["name"])
+
+                
+        SELECTED_SCHOOLS = self._get_user_choices(FILTERED_SCHOOLS_NAMES, "Schools")
+
+        SELECTED_SCHOOLS_IDS = [FILTERED_SCHOOLS[school_name] for school_name in SELECTED_SCHOOLS]
+
+        
+
+        if len(SELECTED_SCHOOLS_IDS) == 0:
+            print("No School Selected.")
+        else:
+            #Updating Filters
+            self.filters["school_ids"] = SELECTED_SCHOOLS_IDS
+            self.filters["filter"]["school_ids"] = SELECTED_SCHOOLS_IDS
+
+# schoolFilter = SchoolFilters()
 
 # selected_countries = schoolFilter._country_filter()
 
@@ -185,8 +223,10 @@ schoolFilter = SchoolFilters()
 
 # selected_provinces = schoolFilter._province_filter(selected_countries)
 
-# schoolFilter._campus_city_filter(selected_countries, selected_provinces)
+# selected_cities =  schoolFilter._campus_city_filter(selected_countries, selected_provinces)
 
-schoolFilter._school_type_filter()
+# selected_school_types = schoolFilter._school_type_filter()
 
-print(schoolFilter.filters)
+# schoolFilter._school_filter(selected_countries, selected_provinces, selected_cities, selected_school_types)
+
+# print(schoolFilter.filters)
