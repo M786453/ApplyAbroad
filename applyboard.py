@@ -24,7 +24,6 @@ def getProgramsByFilters():
 
     filters = Filters().get()
 
-
     PROGRAMS_URL = "https://www.applyboard.com/program_search.json?group_by_school=false"
 
     headers = {
@@ -36,7 +35,6 @@ def getProgramsByFilters():
     }
     
     programs_response = requests.post(PROGRAMS_URL, headers=headers, json=filters)
-
 
     return json.loads(programs_response.text)
 
