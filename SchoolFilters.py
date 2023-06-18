@@ -177,14 +177,6 @@ class SchoolFilters(MainFilter):
 
         return SELECTED_TYPES_NUMBERS
 
-    def _get_schools_data(self):
-
-        SCHOOLS_DATA_URL = "https://www.applyboard.com/quick_search.json"
-
-        schools_data_response = requests.get(SCHOOLS_DATA_URL)
-
-        return json.loads(schools_data_response.text)
-
     def _school_filter(self, selected_countries, selected_provinces, 
                        selected_cities, selected_school_types):
 
@@ -228,4 +220,3 @@ class SchoolFilters(MainFilter):
         selected_types = self._school_type_filter()
 
         self._school_filter(selected_countries, selected_provinces, selected_cities, selected_types)
-

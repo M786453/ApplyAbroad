@@ -139,6 +139,14 @@ class MainFilter:
 
         return json.loads(grading_scheme_response.text)
 
+    def _get_schools_data(self):
+
+            SCHOOLS_DATA_URL = "https://www.applyboard.com/quick_search.json"
+
+            schools_data_response = requests.get(SCHOOLS_DATA_URL)
+
+            return json.loads(schools_data_response.text)
+
     def mainFilters(self):
 
         self._what_study_filter()
