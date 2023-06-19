@@ -78,9 +78,27 @@ class ProgramFilters(MainFilter):
 
             self.filters["filter"]["intake_status"] = SELECTED_STATUSES_VALUES
 
-    def _discipline_filter():
+    def _discipline_filter(self):
 
-        pass
+        CATEGORIES = self.SCHOOLS_DATA["filterOptions"]["categories"]
+
+        CATEGORIES_LABELS = [category[0] for category in CATEGORIES]
+
+        SELECTED_CATEGORIES = self._get_user_choices(CATEGORIES_LABELS, "Categories")
+
+        SELECTED_CATEGORIES_VALUES = [category[1] for category in CATEGORIES if category[0] in SELECTED_CATEGORIES]
+
+        if len(SELECTED_CATEGORIES_VALUES) == 0:
+
+            print("No Category Selected")
+
+        else:
+
+            #Updating Filter
+
+            self.filters["categories"] = SELECTED_CATEGORIES_VALUES
+
+            self.filters["filter"]["categories"] = SELECTED_CATEGORIES_VALUES
 
     def _sub_category_filter():
 
@@ -97,7 +115,8 @@ class ProgramFilters(MainFilter):
 programFilters = ProgramFilters()
 # programFilters._program_level_filter()
 # programFilters._intakes_filter()
-programFilters._intakes_status()
+# programFilters._intakes_status()
+programFilters._discipline_filter()
 
 print(programFilters.filters)
 
