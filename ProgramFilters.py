@@ -100,9 +100,30 @@ class ProgramFilters(MainFilter):
 
             self.filters["filter"]["categories"] = SELECTED_CATEGORIES_VALUES
 
-    def _sub_category_filter():
+    def _sub_category_filter(self, selected_categories_values):
 
-        pass
+        SUB_CATEGORIES_OPTIONS = list()
+
+        SUB_CATEGORIES_OPTIONS.extend(option for sub_category in self.SCHOOLS_DATA["filterOptions"]["sub_categories"] if sub_category["value"] in selected_categories_values for option in sub_category["options"])
+
+        SUB_CATEGORIES_OPTIONS_LABELS = list()
+
+        SUB_CATEGORIES_OPTIONS_LABELS.extend(option["label"] for option in SUB_CATEGORIES_OPTIONS)
+
+        SELECTED_SUB_CAT_LABELS = self._get_user_choices(SUB_CATEGORIES_OPTIONS_LABELS, "Sub Cateories")
+
+        SELECTED_SUB_CAT_VALUES = [sub_cat["value"] for sub_cat in SUB_CATEGORIES_OPTIONS if sub_cat["label"] in SELECTED_SUB_CAT_LABELS]
+
+        if len(SELECTED_SUB_CAT_VALUES) == 0:
+
+            print("No Sub Category Selected")
+
+        else:
+
+            #Updating Filters
+            self.filters["sub_categories"] = SELECTED_SUB_CAT_VALUES
+
+            self.filters["filter"]["sub_categories"] = SELECTED_SUB_CAT_VALUES
 
     def _living_costs_filter():
 
@@ -116,7 +137,8 @@ programFilters = ProgramFilters()
 # programFilters._program_level_filter()
 # programFilters._intakes_filter()
 # programFilters._intakes_status()
-programFilters._discipline_filter()
+# programFilters._discipline_filter()
+programFilters._sub_category_filter([2])
 
 print(programFilters.filters)
 
