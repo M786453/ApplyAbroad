@@ -23,7 +23,7 @@ class SchoolFilters(MainFilter):
 
             self.filters["filter"]["countries"] = SELECTED_COUNTRIES
 
-        return SELECTED_COUNTRIES
+        return SELECTED_COUNTRIES if len(SELECTED_COUNTRIES) != 0 else COUNTRIES
 
     def _post_grad_permit_filter(self):
 
@@ -75,7 +75,7 @@ class SchoolFilters(MainFilter):
 
             self.filters["filter"]["provinces"] = SELECTED_PROVINCES
         
-        return SELECTED_PROVINCES
+        return SELECTED_PROVINCES if len(SELECTED_PROVINCES) != 0 else PROVINCES
 
     def _get_cities(self, country_codes : list, provinces : list):
 
@@ -92,6 +92,8 @@ class SchoolFilters(MainFilter):
         }
 
         cities_response = requests.get(CITIES_URL, headers=headers)
+
+        print(cities_response.text)
 
         cities = list()
 

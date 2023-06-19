@@ -1,12 +1,6 @@
 from MainFilter import MainFilter
 
 class ProgramFilters(MainFilter):
-    
-    def __init__(self):
-        """
-        Added for only testing purposes, remove this after testing
-        """
-        super().__init__()
 
     def _program_level_filter(self):
 
