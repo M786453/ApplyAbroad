@@ -125,9 +125,82 @@ class ProgramFilters(MainFilter):
 
             self.filters["filter"]["sub_categories"] = SELECTED_SUB_CAT_VALUES
 
-    def _living_costs_filter():
+    def _living_costs_filter(self):
 
-        pass
+        print("")
+
+        print("Do you want to include living cost?")
+
+        living_cost_subvalue = True if input("Enter 'Yes' or 'No': ").lower() == "yes" else False
+
+        if living_cost_subvalue:
+
+            self._get_budget()
+
+            self._get_application_fee()
+                 
+        else:
+            
+            print("No Living Cost Given")
+
+    def _get_budget(self):
+         
+        budget = self._get_cost("Budget")
+
+        if budget != None:
+                 
+            budget_dict = {"subValue": True, "value": budget}
+
+            #Updating filter
+            self.filters["budget"] = budget_dict
+            self.filters["filter"]["budget"] = budget_dict
+        
+        else:
+             
+             print("No Budget Given")
+
+    def _get_application_fee(self):
+         
+        application_fee = self._get_cost("Application Fee")
+
+        if application_fee != None:
+
+            #Updating Filters
+            self.filters["application_fee"] = application_fee
+            self.filters["filter"]["application_fee"] = application_fee
+                    
+        else:
+                      
+            print("No Application Fee Given")
+
+    def _get_cost(self,tag):
+
+        min = input(f"Enter Your Minimum {tag}: ")
+
+        if min == "":
+
+                min = 0
+            
+        else:
+
+                min = int(min)
+
+        max = input(f"Enter Your Maximum {tag}: ")
+
+        if max != "":
+
+                max = int(max)
+
+                out = {"min": min, "max": max}
+
+                return out
+            
+        else:
+
+                print(f"Invalid Max {tag}")
+
+
+        return None
 
     def programFilters():
 
@@ -138,7 +211,7 @@ programFilters = ProgramFilters()
 # programFilters._intakes_filter()
 # programFilters._intakes_status()
 # programFilters._discipline_filter()
-programFilters._sub_category_filter([2])
+programFilters._living_costs_filter()
 
 print(programFilters.filters)
 
