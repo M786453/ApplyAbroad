@@ -99,6 +99,8 @@ class ProgramFilters(MainFilter):
             self.filters["categories"] = SELECTED_CATEGORIES_VALUES
 
             self.filters["filter"]["categories"] = SELECTED_CATEGORIES_VALUES
+        
+        return SELECTED_CATEGORIES_VALUES
 
     def _sub_category_filter(self, selected_categories_values):
 
@@ -202,17 +204,15 @@ class ProgramFilters(MainFilter):
 
         return None
 
-    def programFilters():
+    def programFilters(self):
 
-        pass
+        self._program_level_filter()
+        self._intakes_filter()
+        self._intakes_status()
+        selected_cat_values = self._discipline_filter()
+        self._sub_category_filter(selected_cat_values)
+        self._living_costs_filter()
 
-programFilters = ProgramFilters()
-# programFilters._program_level_filter()
-# programFilters._intakes_filter()
-# programFilters._intakes_status()
-# programFilters._discipline_filter()
-programFilters._living_costs_filter()
 
-print(programFilters.filters)
 
 
