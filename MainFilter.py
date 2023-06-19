@@ -149,6 +149,37 @@ class MainFilter:
 
             return json.loads(schools_data_response.text)
 
+    def _get_user_choices(self, data_list: list, tag: str) -> list:
+
+        SELECTED_ITEMS = list()
+
+        print("")
+
+        print(f"Choose one or more of following {tag}:")
+
+        for index, item in enumerate(data_list):
+
+            print(str(index) + ":" + item)
+        
+        item_count = input(f"How many {tag} you want to select: ")
+
+        if item_count != "":
+
+            item_count = int(item_count)
+
+            if item_count > 0:
+
+                for i in range(item_count):
+
+                    selected_item = input(str(i+1) + ".Enter Item#: ")
+
+                    if selected_item != "":
+
+                        SELECTED_ITEMS.append(data_list[int(selected_item)])
+
+        
+        return SELECTED_ITEMS
+
     def mainFilters(self):
 
         self._what_study_filter()
