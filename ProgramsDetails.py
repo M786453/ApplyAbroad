@@ -4,7 +4,7 @@ from env import AUTH_TOKENS
 
 class ProgramDetails:
 
-    def get_program_intakes(self, program_id):
+    def get(self, program_id):
 
         PROGRAM_DETAILS_URL = f"https://www.applyboard.com/api/v2/programs/{program_id}?include=program_intakes%2Cprogram_requirement&fields%5Bprogram_intake%5D=general_status%2Cstart_date%2Copen_date%2Csubmission_deadline"
 
