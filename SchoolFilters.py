@@ -85,15 +85,15 @@ class SchoolFilters(MainFilter):
 
         CITIES_URL = f"https://www.applyboard.com/api/v2/schools/cities?country_code={country_codes}&province={provinces}"
 
+
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
+            "Cookie": "datadome=UCCZZoHWrb2t5vyfZSijf7mmwkdMng0fgS5dQgmPw24nLxJQXhG_SxjuKkR9Rh5T3jvfcdxjT10xFiONRxdu3MOPNBLF3jS14pEdwhSvSDOFAgiw54CF4~xNMR5eMjf",
             "Accept": "*/*",
             "Accept-Language": "en-US,en;q=0.9"
         }
 
         cities_response = requests.get(CITIES_URL, headers=headers)
-
-        print(cities_response.text)
 
         cities = list()
 
@@ -191,3 +191,4 @@ class SchoolFilters(MainFilter):
         selected_types = self._school_type_filter()
 
         self._school_filter(selected_countries, selected_provinces, selected_cities, selected_types)
+
