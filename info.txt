@@ -1,5 +1,0 @@
-Target: www.applyboard.com
-
-Retrieve Schools Data:
-https://www.applyboard.com/quick_search.json
-
