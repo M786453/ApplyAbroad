@@ -42,7 +42,8 @@ def getProgramsByFilters():
             #Updating programs data with their intakes data
             for program in programs:
 
-                program["intakes"] = ProgramDetails().get_program_intakes(program["id"])
+                program["intakes"],program["program_requirement"] = ProgramDetails().get_program_intakes(program["id"])
+
 
         
         
