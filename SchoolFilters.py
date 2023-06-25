@@ -1,6 +1,7 @@
 from MainFilter import MainFilter
 import requests
 import json
+from env import headers
 
 class SchoolFilters(MainFilter):
 
@@ -75,7 +76,7 @@ class SchoolFilters(MainFilter):
 
             self.filters["filter"]["provinces"] = SELECTED_PROVINCES
         
-        return SELECTED_PROVINCES if len(SELECTED_PROVINCES) != 0 else PROVINCES
+        return SELECTED_PROVINCES
 
     def _get_cities(self, country_codes : list, provinces : list):
 
@@ -85,15 +86,16 @@ class SchoolFilters(MainFilter):
 
         CITIES_URL = f"https://www.applyboard.com/api/v2/schools/cities?country_code={country_codes}&province={provinces}"
 
-
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
-            "Cookie": "datadome=UCCZZoHWrb2t5vyfZSijf7mmwkdMng0fgS5dQgmPw24nLxJQXhG_SxjuKkR9Rh5T3jvfcdxjT10xFiONRxdu3MOPNBLF3jS14pEdwhSvSDOFAgiw54CF4~xNMR5eMjf",
-            "Accept": "*/*",
-            "Accept-Language": "en-US,en;q=0.9"
-        }
+        # headers = {
+        #     "Cookie": "datadome=1mObgPKAf~8h~~MWIzgQsR8OTa6_HuV6WYZDQwoxDzWDewsnjreYCqcQ58jY19-sYYeIZKF0iS_22TX4JN3x84rhtvstgih6CuzOm5DLNRyMMxlYrjotNXvWjNZf0qEZ",
+        #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
+        #     "Accept": "*/*",
+        #     "Accept-Language": "en-US,en;q=0.9"
+        # }
 
         cities_response = requests.get(CITIES_URL, headers=headers)
+
+        print(cities_response.text)
 
         cities = list()
 
@@ -186,7 +188,10 @@ class SchoolFilters(MainFilter):
 
         selected_provinces = self._province_filter(selected_countries)
 
-        selected_cities = self._campus_city_filter(selected_countries, selected_provinces)
+        selected_cities = list()
+
+        if len(selected_provinces) != 0:
+            selected_cities = self._campus_city_filter(selected_countries, selected_provinces)
 
         selected_types = self._school_type_filter()
 

@@ -7,15 +7,14 @@ import time
 
 
 class Auth:
-
-    def __init__(self):
         
-        self.headers = {
+    headers = {
+        "Cookie": "",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43",
         "Content-Type": "application/json;charset=UTF-8",
         "Accept": "application/json, text/plain, */*, application/json",
         "Accept-Language": "en-US,en;q=0.9"
-        }
+    }
 
 
     def login(self):
@@ -28,7 +27,9 @@ class Auth:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         
-        driver = webdriver.Chrome(options=chrome_options)
+        # driver = webdriver.Chrome(options=chrome_options)
+
+        driver = webdriver.Chrome()
 
         driver.get("https://accounts.applyboard.com")
 
@@ -40,24 +41,26 @@ class Auth:
         
         cookies = driver.get_cookies()
 
-        self.mCookies = dict()
-        
         for cookie in cookies:
+
+            print(cookie["name"])
 
             if "_applyboard_session" == cookie["name"]:
 
-                self.mCookies["_applyboard_session"] = cookie["value"]
+                session = cookie["value"]
 
             if "datadome" == cookie["name"]:
 
-                self.mCookies["datadome"] = cookie["value"]
+                datadome = cookie["value"]
 
-                
-        print(self.mCookies)
+        cookies_str = f"_applyboard_session={session}; datadome={datadome};"
+    
+        Auth.headers["Cookie"] = cookies_str
+
+        time.sleep(500)
 
         driver.quit()
 
+        print("")
         print("Log In Successful.")
         print("")
-
-Auth().login()
